@@ -75,29 +75,22 @@
 })();
 </script>
 
-<!-- EVENT BANNER: GOTV strategy call, Sun Aug 23 2026 8PM. Dismissible; stays dismissed via localStorage.
-     Auto-hides after the event. -->
+<!-- EVENT BANNER: get out the vote push. Dismissible; stays dismissed via localStorage. -->
 <div class="evt-banner" id="evt-banner" hidden>
   <div class="evt-banner-inner" id="evt-banner-inner">
-    <span class="eb-copy" id="evt-banner-copy"><span>We're in the final stretch!</span> <span>Join our GOTV strategy call <span style="white-space:nowrap">August 23 at 8 PM</span></span></span>
-    <a class="eb-cta" id="evt-banner-cta" href="https://www.mobilize.us/burhanforstatesenate/event/1015298/" target="_blank" rel="noopener">RSVP now</a>
+    <span class="eb-copy" id="evt-banner-copy">FINAL STRETCH: Help us get out the vote!</span>
+    <a class="eb-cta" id="evt-banner-cta" href="https://www.mobilize.us/burhanforstatesenate/" target="_blank" rel="noopener">Sign up</a>
     <button class="eb-close" id="evt-banner-close" aria-label="Dismiss">✕</button>
   </div>
 </div>
 <script>
 (function() {
-  var EVENT_END = new Date(2026, 7, 24);   // banner disappears once the day is over
-  var DISMISS_KEY = 'gotvBannerDismiss';
+  var DISMISS_KEY = 'finalStretchBannerDismiss';
 
   var banner = document.getElementById('evt-banner');
   var inner = document.getElementById('evt-banner-inner');
   var ctaEl = document.getElementById('evt-banner-cta');
   var closeBtn = document.getElementById('evt-banner-close');
-
-  if (new Date() >= EVENT_END) {
-    banner.parentNode.removeChild(banner);
-    return;
-  }
 
   if (window.localStorage.getItem(DISMISS_KEY)) {
     banner.parentNode.removeChild(banner);
@@ -108,16 +101,16 @@
 
   inner.addEventListener('click', function(e) {
     if (closeBtn.contains(e.target) || ctaEl.contains(e.target)) return;
-    window.plausible && window.plausible('GOTV Banner Click');
+    window.plausible && window.plausible('Final Stretch Banner Click');
     window.open(ctaEl.href, '_blank', 'noopener');
   });
   ctaEl.addEventListener('click', function() {
-    window.plausible && window.plausible('GOTV Banner Click');
+    window.plausible && window.plausible('Final Stretch Banner Click');
   });
 
   closeBtn.addEventListener('click', function() {
     window.localStorage.setItem(DISMISS_KEY, '1');
-    window.plausible && window.plausible('GOTV Banner Dismiss');
+    window.plausible && window.plausible('Final Stretch Banner Dismiss');
     banner.style.maxHeight = banner.scrollHeight + 'px';
     banner.getBoundingClientRect();
     banner.classList.add('closing');
