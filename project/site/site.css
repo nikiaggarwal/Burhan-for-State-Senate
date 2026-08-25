@@ -211,21 +211,6 @@ a { color: inherit; }
 .qbar .qtext { font-family: var(--font-heading); font-weight: 700; font-size: 23px; line-height: 1.15; letter-spacing: .02em; color: var(--blue); text-transform: uppercase; }
 .qbar .qrule { flex: none; width: 1px; align-self: stretch; background: var(--line-grey); }
 
-/* endorsements */
-.endorse .egrid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 24px; }
-.ecard { display: flex; flex-direction: column; gap: 10px; }
-.ecard .ephoto { width: 100%; aspect-ratio: 1/1.08; background: var(--line-grey) center/cover no-repeat; }
-.ecard .enm { font-family: var(--font-heading); font-weight: 700; font-size: 23px; letter-spacing: .02em; color: var(--blue); text-transform: uppercase; line-height: 1.05; }
-.ecard .erole { font-family: var(--font-body); font-size: 17px; line-height: 1.3; color: var(--blue); }
-/* org logo tile: fit whole logo instead of cropping (for non-square logo art) */
-.ecard .ephoto.elogo { background-color: #fff; background-size: contain; background-origin: content-box; padding: 16px; box-sizing: border-box; }
-/* org tiles that link out to the organization's site */
-a.ecard { text-decoration: none; transition: transform .15s ease; }
-a.ecard:hover { transform: translateY(-3px); }
-a.ecard:hover .enm { color: var(--orange); }
-a.ecard:focus-visible { outline: 3px solid var(--orange); outline-offset: 4px; }
-@media (prefers-reduced-motion: reduce) { a.ecard { transition: none; } a.ecard:hover { transform: none; } }
-
 /* full-bleed band: paint a section's background beyond the centered .site column
    (the body shows through beside the 1280px column on wide screens otherwise) */
 .hp-section.fullbleed { box-shadow: 0 0 0 100vmax var(--bleed-bg, #fff); clip-path: inset(0 -100vmax); }
@@ -234,20 +219,26 @@ a.ecard:focus-visible { outline: 3px solid var(--orange); outline-offset: 4px; }
 /* endorsements page has no hero — give its opening section room under the header */
 .hp-section.endorsements-open { padding-top: 64px; }
 
-/* org logos — transparent-PNG marks floating on the page's light-blue background,
-   no card, no name (the mark already carries the org's name).
-   Grid (not flex-wrap) so rows step down cleanly: 6 → 3 → 2 → 1 per line
-   as the six logos stop fitting on one row, instead of an uneven wrap. */
-.ologos { display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); align-items: center; justify-items: start; gap: 36px 48px; }
-.ologos a { display: flex; align-items: center; transition: transform .15s ease, opacity .15s ease; }
-.ologos img { display: block; height: 64px; width: auto; max-width: 100%; object-fit: contain; }
+/* org logos — shared by the home strip and the endorsements page. Sized by width,
+   not height, so re-cropping a logo changes only its height, never the row's fit. */
+.ologos { display: flex; flex-wrap: nowrap; align-items: center; justify-content: space-between; gap: clamp(18px, 2.6vw, 40px); padding-block: 26px; }
+.ologos a { flex: 0 1 auto; min-width: 0; display: flex; align-items: center; transition: transform .15s ease, opacity .15s ease; }
+.ologos img { display: block; width: var(--logo-w, 127px); height: auto; max-width: 100%; max-height: 104px; object-fit: contain; }
+.ologos .lg-sq     { --logo-w: 88px;  }  /* ~1:1   */
+.ologos .lg-wide   { --logo-w: 127px; }  /* ~2:1   */
+.ologos .lg-wider  { --logo-w: 145px; }  /* ~2.7:1 */
+.ologos .lg-widest { --logo-w: 180px; }  /* ~4:1   */
 .ologos a:hover { transform: translateY(-2px); opacity: .82; }
 .ologos a:focus-visible { outline: 3px solid var(--orange); outline-offset: 6px; }
 @media (prefers-reduced-motion: reduce) { .ologos a { transition: none; } .ologos a:hover { transform: none; } }
-@media (max-width: 900px) { .ologos { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
-@media (max-width: 720px) { .ologos { gap: 28px 32px; } .ologos img { height: 52px; } }
-@media (max-width: 560px) { .ologos { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
-@media (max-width: 380px) { .ologos { grid-template-columns: repeat(1, minmax(0, 1fr)); justify-items: center; } }
+/* phones: six across would be illegible, so let the strip wrap and ease the sizes */
+@media (max-width: 720px) {
+  .ologos { flex-wrap: wrap; justify-content: flex-start; gap: 22px 28px; padding-block: 16px; }
+  .ologos .lg-sq     { --logo-w: 70px;  }
+  .ologos .lg-wide   { --logo-w: 100px; }
+  .ologos .lg-wider  { --logo-w: 114px; }
+  .ologos .lg-widest { --logo-w: 142px; }
+}
 
 /* endorsements — local support people grid (circular headshots, tagged clusters).
    Groups flow side by side across the row like the printed graphic; each cluster
@@ -684,6 +675,8 @@ a.ecard:focus-visible { outline: 3px solid var(--orange); outline-offset: 4px; }
 
 /* pillars grid — six-point plan */
 .hp-pillars { display: grid; grid-template-columns: repeat(3, 1fr); gap: 21px; margin-top: 8px; }
+/* two-up variant: for sections with a few long-form pillars */
+.hp-pillars.two-up { grid-template-columns: repeat(2, 1fr); }
 .hp-pillar { background: #fff; border: 1px solid var(--blue); border-left: 7px solid var(--orange); padding: 26px 28px 28px; display: flex; flex-direction: column; gap: 10px; }
 .hp-pillar-wide { grid-column: 1 / -1; margin-top: 21px; }
 .hp-pillar .hp-pillar-n { font-family: var(--font-heading); font-weight: 700; font-size: 13px; letter-spacing: .12em; text-transform: uppercase; color: var(--orange); }
@@ -844,7 +837,7 @@ a.ecard:focus-visible { outline: 3px solid var(--orange); outline-offset: 4px; }
   .hp-row, .hp-row.rev, .hp-block, .hp-block.rev { grid-template-columns: 1fr; }
   .hp-row.rev .hp-media, .hp-block.rev .hp-media { order: 0; }
   .hp-blocks { gap: 48px; }
-  .hp-pillars { grid-template-columns: 1fr; }
+  .hp-pillars, .hp-pillars.two-up { grid-template-columns: 1fr; }
   .hp-stats, .hp-stats.two { grid-template-columns: 1fr; }
   .hp-stat { border-right: none; border-bottom: 1px solid var(--line-grey); }
   .hp-stat:last-child { border-bottom: none; }
@@ -877,7 +870,7 @@ a.ecard:focus-visible { outline: 3px solid var(--orange); outline-offset: 4px; }
   .hdr .navlinks { display: none; }
   .hdr nav .btn { display: inline-flex; font-size: 14px; padding: 7px 13px; }
   .hdr .hamburger { display: flex; flex-direction: column; }
-  .home-hero, .thirty, .feature, .vol-wrap, .endorse .egrid, .priorities .pgrid, .ii-card, .tl-with-image, .ihv-grid, .page-hero-grid { grid-template-columns: 1fr; }
+  .home-hero, .thirty, .feature, .vol-wrap, .priorities .pgrid, .ii-card, .tl-with-image, .ihv-grid, .page-hero-grid { grid-template-columns: 1fr; }
   .th-hero-grid {
     grid-template-columns: 1fr;
     row-gap: 14px;
@@ -897,7 +890,6 @@ a.ecard:focus-visible { outline: 3px solid var(--orange); outline-offset: 4px; }
   .ii-video { min-height: 200px; }
   .home-hero h1 { font-size: 60px; }
   .page-hero h1 { font-size: 44px; }
-  .endorse .egrid { grid-template-columns: 1fr 1fr; }
   /* endorsements page: clusters stack full-width, cards flow two-up and center */
   .epgroups { flex-direction: column; gap: 40px; align-items: stretch; }
   .epgroup:not(:has(.epgroup-tag))::before { display: none; }
