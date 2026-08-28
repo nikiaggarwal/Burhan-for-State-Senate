@@ -49,6 +49,22 @@ function VolunteerApp() {
         </Reveal>
       </section>
 
+      {/* Election Day Standouts callout — added for the 8/28 launch.
+          TODO: swap the Mobilize href to the specific Election Day Standouts event URL once created;
+          the org feed URL used here works as a fallback and will list the event. */}
+      <section className="section" style={{ paddingTop: 44, paddingBottom: 4 }}>
+        <Reveal>
+          <div style={{ background: "#003DA5", color: "#fff", borderRadius: 4, padding: "30px 34px", display: "flex", flexDirection: "column", gap: 14, alignItems: "flex-start" }}>
+            <span style={{ display: "inline-block", background: "#FF9600", color: "#003DA5", fontFamily: "var(--font-heading)", fontWeight: 700, letterSpacing: ".06em", textTransform: "uppercase", fontSize: 14, padding: "6px 12px", borderRadius: 3 }}>Election Day · Tues, Sept 1</span>
+            <h2 style={{ margin: 0, color: "#fff" }}>Sign up for a 2-hour standout shift</h2>
+            <p style={{ margin: 0, maxWidth: "62ch", fontSize: 17, lineHeight: 1.5 }}>This is the final push. We're running standouts at the top polling places across Cambridge, Somerville, Medford, and Winchester from 7am to 8pm &mdash; waving signs, handing out lit, and being the last friendly face voters see before they cast a ballot. Early morning (7&ndash;9am) and evening slots matter most.</p>
+            <a className="btn btn-orange" href="https://www.mobilize.us/burhanforstatesenate/" target="_blank" rel="noopener noreferrer" onClick={() => { window.plausible && window.plausible('Standout Signup Click'); }}>
+              Grab a standout shift
+            </a>
+          </div>
+        </Reveal>
+      </section>
+
       <VolunteerBody layout="Split" />
 
       <SiteFooter headline="More is possible" sub="Can't volunteer right now? A donation goes just as far." />
