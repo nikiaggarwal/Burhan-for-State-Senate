@@ -77,22 +77,29 @@
 })();
 </script>
 
-<!-- EVENT BANNER: get out the vote push. Dismissible; stays dismissed via localStorage. -->
+<!-- EVENT BANNER: election day poll greeter recruitment. Dismissible; stays dismissed via localStorage.
+     Auto-hides after signups close. -->
 <div class="evt-banner" id="evt-banner" hidden>
   <div class="evt-banner-inner" id="evt-banner-inner">
-    <span class="eb-copy" id="evt-banner-copy">FINAL STRETCH: Help us get out the vote!</span>
-    <a class="eb-cta" id="evt-banner-cta" href="https://www.mobilize.us/burhanforstatesenate/" target="_blank" rel="noopener">Sign up</a>
+    <span class="eb-copy" id="evt-banner-copy">Most voters will go to the polls undecided about this race. Help us reach them this Tuesday.</span>
+    <a class="eb-cta" id="evt-banner-cta" href="https://docs.google.com/forms/d/e/1FAIpQLSdtYpj3YYUqupMaEk40IJoTCxsiHIwglq07pbXn5X_F9julrQ/viewform" target="_blank" rel="noopener">Take a shift</a>
     <button class="eb-close" id="evt-banner-close" aria-label="Dismiss">✕</button>
   </div>
 </div>
 <script>
 (function() {
-  var DISMISS_KEY = 'finalStretchBannerDismiss';
+  var SIGNUP_END = new Date(2026, 7, 31);   // assignments go out Sun Aug 30 evening; banner disappears once that day is over
+  var DISMISS_KEY = 'pollGreeterBannerDismiss';
 
   var banner = document.getElementById('evt-banner');
   var inner = document.getElementById('evt-banner-inner');
   var ctaEl = document.getElementById('evt-banner-cta');
   var closeBtn = document.getElementById('evt-banner-close');
+
+  if (new Date() >= SIGNUP_END) {
+    banner.parentNode.removeChild(banner);
+    return;
+  }
 
   if (window.localStorage.getItem(DISMISS_KEY)) {
     banner.parentNode.removeChild(banner);
@@ -103,16 +110,16 @@
 
   inner.addEventListener('click', function(e) {
     if (closeBtn.contains(e.target) || ctaEl.contains(e.target)) return;
-    window.plausible && window.plausible('Final Stretch Banner Click');
+    window.plausible && window.plausible('Poll Greeter Banner Click');
     window.open(ctaEl.href, '_blank', 'noopener');
   });
   ctaEl.addEventListener('click', function() {
-    window.plausible && window.plausible('Final Stretch Banner Click');
+    window.plausible && window.plausible('Poll Greeter Banner Click');
   });
 
   closeBtn.addEventListener('click', function() {
     window.localStorage.setItem(DISMISS_KEY, '1');
-    window.plausible && window.plausible('Final Stretch Banner Dismiss');
+    window.plausible && window.plausible('Poll Greeter Banner Dismiss');
     banner.style.maxHeight = banner.scrollHeight + 'px';
     banner.getBoundingClientRect();
     banner.classList.add('closing');
