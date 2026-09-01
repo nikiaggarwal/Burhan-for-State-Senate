@@ -77,26 +77,26 @@
 })();
 </script>
 
-<!-- EVENT BANNER: election day poll greeter recruitment. Dismissible; stays dismissed via localStorage.
-     Auto-hides after signups close. -->
+<!-- EVENT BANNER: election night watch party, Tue Sep 1 2026 8PM. Dismissible; stays dismissed via localStorage.
+     Auto-hides after the party. -->
 <div class="evt-banner" id="evt-banner" hidden>
   <div class="evt-banner-inner" id="evt-banner-inner">
-    <span class="eb-copy" id="evt-banner-copy">Most voters will go to the polls undecided about this race. Help us reach them this Tuesday.</span>
-    <a class="eb-cta" id="evt-banner-cta" href="https://docs.google.com/forms/d/e/1FAIpQLSdtYpj3YYUqupMaEk40IJoTCxsiHIwglq07pbXn5X_F9julrQ/viewform" target="_blank" rel="noopener">Take a shift</a>
+    <span class="eb-copy" id="evt-banner-copy">Watch the election night results with us Tuesday&nbsp;at&nbsp;8&nbsp;PM</span>
+    <a class="eb-cta" id="evt-banner-cta" href="https://partiful.com/e/GRIWYyM7lDirywfh6tkU" target="_blank" rel="noopener">RSVP</a>
     <button class="eb-close" id="evt-banner-close" aria-label="Dismiss">✕</button>
   </div>
 </div>
 <script>
 (function() {
-  var SIGNUP_END = new Date(2026, 7, 31);   // assignments go out Sun Aug 30 evening; banner disappears once that day is over
-  var DISMISS_KEY = 'pollGreeterBannerDismiss';
+  var EVENT_END = new Date(2026, 8, 2);   // party is Tue Sep 1 evening; banner disappears once that day is over
+  var DISMISS_KEY = 'watchPartyBannerDismiss';
 
   var banner = document.getElementById('evt-banner');
   var inner = document.getElementById('evt-banner-inner');
   var ctaEl = document.getElementById('evt-banner-cta');
   var closeBtn = document.getElementById('evt-banner-close');
 
-  if (new Date() >= SIGNUP_END) {
+  if (new Date() >= EVENT_END) {
     banner.parentNode.removeChild(banner);
     return;
   }
@@ -110,16 +110,16 @@
 
   inner.addEventListener('click', function(e) {
     if (closeBtn.contains(e.target) || ctaEl.contains(e.target)) return;
-    window.plausible && window.plausible('Poll Greeter Banner Click');
+    window.plausible && window.plausible('Watch Party Banner Click');
     window.open(ctaEl.href, '_blank', 'noopener');
   });
   ctaEl.addEventListener('click', function() {
-    window.plausible && window.plausible('Poll Greeter Banner Click');
+    window.plausible && window.plausible('Watch Party Banner Click');
   });
 
   closeBtn.addEventListener('click', function() {
     window.localStorage.setItem(DISMISS_KEY, '1');
-    window.plausible && window.plausible('Poll Greeter Banner Dismiss');
+    window.plausible && window.plausible('Watch Party Banner Dismiss');
     banner.style.maxHeight = banner.scrollHeight + 'px';
     banner.getBoundingClientRect();
     banner.classList.add('closing');
